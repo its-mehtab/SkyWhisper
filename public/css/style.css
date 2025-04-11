@@ -1,0 +1,67 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-size: 18px;
+  font-weight: 400;
+  font-family: "Lexend Deca", sans-serif;
+  background: #47a9ff url(../images/main-bg.jpg) no-repeat top center;
+  background-size: cover;
+}
+
+.common-head {
+  font-size: 44px;
+  font-weight: 700;
+  color: #fff;
+}
+
+input {
+  font-size: 16px;
+  padding: 12px 24px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+button {
+  padding: 10px 32px;
+  background-color: #004d95;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #1069bd;
+}
+
+.result {
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  color: #222;
+}
+
+.common-box {
+  padding: 40px 30px;
+  border-radius: 20px;
+  background: rgba(0, 101, 191, 0.5);
+  backdrop-filter: blur(17.45px);
+}
+
+.common-box p {
+  color: #fff;
+}
+
+.weather-content h3 {
+  font-size: 74px;
+  font-weight: 700;
+  color: #fff;
+}

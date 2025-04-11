@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkyWhisper</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <main class="py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="weather-form common-box">
+              <div class="logo mb-3">
+                <!-- <img src="images/logo.png" alt="SkyWhisper" /> -->
+                <%- include("partials/logo.ejs") %>
+              </div>
+              <h1 class="common-head">Will It Rain Tomorrow?</h1>
+              <p>Enter your city to check the weather forecast:</p>
+              <form id="weatherForm" action="/submit" method="post">
+                <input
+                  name="cityname"
+                  type="text"
+                  id="locationInput"
+                  placeholder="Enter city name"
+                  required
+                />
+                <button type="submit">Check Forecast</button>
+              </form>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="weather-content common-box">
+              <h2 class="common-head">Kolkata</h2>
+              <h3>28°-34°</h3>
+              <p>Average - 31°</p>
+              <p>Expected to be scattered clouds</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
