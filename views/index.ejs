@@ -37,6 +37,7 @@
             </div>
           </div>
           <div class="col-md-6">
+            <% if (typeof tomorrowForecast !== 'undefined') { %>
             <div class="weather-content common-box mt-4 mt-md-0">
               <h2 class="common-head"><%- locals.city %></h2>
               <h3>28°-34°</h3>
@@ -49,7 +50,6 @@
                   Sunny conditions exprected around 5PM. Wind gusts are up to 31
                   kph.
                 </p>
-
                 <div class="swiper-button-prev custom-arrow">
                   <svg
                     width="24"
@@ -96,8 +96,7 @@
                 </ul>
                 <div class="swiper weather-slider">
                   <div class="swiper-wrapper">
-                    <% if (tomorrowForecast) {
-                    tomorrowForecast.forEach(currReport => { %>
+                    <% tomorrowForecast.forEach(currReport => { %>
                     <div class="swiper-slide">
                       <ul class="report-data">
                         <li>
@@ -113,205 +112,7 @@
                         <li><%- currReport.humidity %></li>
                       </ul>
                     </div>
-                    <% }) } %>
-                    <!-- <div class="swiper-slide">
-                      <ul class="report-data">
-                        <li>
-                          <svg
-                            width="48"
-                            height="48"
-                            viewBox="0 0 48 48"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <g clip-path="url(#clip0_111_108)">
-                              <path
-                                d="M36 20H33.48C32.7317 17.102 31.1856 14.472 29.0173 12.4088C26.849 10.3456 24.1454 8.93198 21.2138 8.32855C18.2822 7.72512 15.2402 7.95608 12.4333 8.99518C9.6264 10.0343 7.16726 11.8399 5.33528 14.2068C3.50331 16.5737 2.37196 19.407 2.06979 22.3847C1.76763 25.3625 2.30676 28.3653 3.62593 31.0519C4.9451 33.7386 6.99141 36.0014 9.53234 37.5831C12.0733 39.1649 15.0069 40.0022 18 40H36C38.6521 40 41.1957 38.9464 43.071 37.0711C44.9464 35.1957 46 32.6522 46 30C46 27.3478 44.9464 24.8043 43.071 22.9289C41.1957 21.0536 38.6521 20 36 20Z"
-                                stroke="white"
-                                stroke-width="4"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              />
-                            </g>
-                            <defs>
-                              <clipPath id="clip0_111_108">
-                                <rect width="48" height="48" fill="white" />
-                              </clipPath>
-                            </defs>
-                          </svg>
-                        </li>
-                        <li><%- tomorrowForecast[0].time %></li>
-                        <li>32°</li>
-                        <li>34°</li>
-                        <li>rain</li>
-                        <li>36°</li>
-                      </ul>
-                    </div>
-                    <div class="swiper-slide">
-                      <ul class="report-data">
-                        <li>
-                          <svg
-                            width="48"
-                            height="48"
-                            viewBox="0 0 48 48"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <g clip-path="url(#clip0_111_108)">
-                              <path
-                                d="M36 20H33.48C32.7317 17.102 31.1856 14.472 29.0173 12.4088C26.849 10.3456 24.1454 8.93198 21.2138 8.32855C18.2822 7.72512 15.2402 7.95608 12.4333 8.99518C9.6264 10.0343 7.16726 11.8399 5.33528 14.2068C3.50331 16.5737 2.37196 19.407 2.06979 22.3847C1.76763 25.3625 2.30676 28.3653 3.62593 31.0519C4.9451 33.7386 6.99141 36.0014 9.53234 37.5831C12.0733 39.1649 15.0069 40.0022 18 40H36C38.6521 40 41.1957 38.9464 43.071 37.0711C44.9464 35.1957 46 32.6522 46 30C46 27.3478 44.9464 24.8043 43.071 22.9289C41.1957 21.0536 38.6521 20 36 20Z"
-                                stroke="white"
-                                stroke-width="4"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              />
-                            </g>
-                            <defs>
-                              <clipPath id="clip0_111_108">
-                                <rect width="48" height="48" fill="white" />
-                              </clipPath>
-                            </defs>
-                          </svg>
-                        </li>
-                        <li>12AM</li>
-                        <li>32°</li>
-                        <li>34°</li>
-                        <li>rain</li>
-                        <li>36°</li>
-                      </ul>
-                    </div>
-                    <div class="swiper-slide">
-                      <ul class="report-data">
-                        <li>
-                          <svg
-                            width="48"
-                            height="48"
-                            viewBox="0 0 48 48"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <g clip-path="url(#clip0_111_108)">
-                              <path
-                                d="M36 20H33.48C32.7317 17.102 31.1856 14.472 29.0173 12.4088C26.849 10.3456 24.1454 8.93198 21.2138 8.32855C18.2822 7.72512 15.2402 7.95608 12.4333 8.99518C9.6264 10.0343 7.16726 11.8399 5.33528 14.2068C3.50331 16.5737 2.37196 19.407 2.06979 22.3847C1.76763 25.3625 2.30676 28.3653 3.62593 31.0519C4.9451 33.7386 6.99141 36.0014 9.53234 37.5831C12.0733 39.1649 15.0069 40.0022 18 40H36C38.6521 40 41.1957 38.9464 43.071 37.0711C44.9464 35.1957 46 32.6522 46 30C46 27.3478 44.9464 24.8043 43.071 22.9289C41.1957 21.0536 38.6521 20 36 20Z"
-                                stroke="white"
-                                stroke-width="4"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              />
-                            </g>
-                            <defs>
-                              <clipPath id="clip0_111_108">
-                                <rect width="48" height="48" fill="white" />
-                              </clipPath>
-                            </defs>
-                          </svg>
-                        </li>
-                        <li>12AM</li>
-                        <li>32°</li>
-                        <li>34°</li>
-                        <li>rain</li>
-                        <li>36°</li>
-                      </ul>
-                    </div>
-                    <div class="swiper-slide">
-                      <ul class="report-data">
-                        <li>
-                          <svg
-                            width="48"
-                            height="48"
-                            viewBox="0 0 48 48"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <g clip-path="url(#clip0_111_108)">
-                              <path
-                                d="M36 20H33.48C32.7317 17.102 31.1856 14.472 29.0173 12.4088C26.849 10.3456 24.1454 8.93198 21.2138 8.32855C18.2822 7.72512 15.2402 7.95608 12.4333 8.99518C9.6264 10.0343 7.16726 11.8399 5.33528 14.2068C3.50331 16.5737 2.37196 19.407 2.06979 22.3847C1.76763 25.3625 2.30676 28.3653 3.62593 31.0519C4.9451 33.7386 6.99141 36.0014 9.53234 37.5831C12.0733 39.1649 15.0069 40.0022 18 40H36C38.6521 40 41.1957 38.9464 43.071 37.0711C44.9464 35.1957 46 32.6522 46 30C46 27.3478 44.9464 24.8043 43.071 22.9289C41.1957 21.0536 38.6521 20 36 20Z"
-                                stroke="white"
-                                stroke-width="4"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              />
-                            </g>
-                            <defs>
-                              <clipPath id="clip0_111_108">
-                                <rect width="48" height="48" fill="white" />
-                              </clipPath>
-                            </defs>
-                          </svg>
-                        </li>
-                        <li>12AM</li>
-                        <li>32°</li>
-                        <li>34°</li>
-                        <li>rain</li>
-                        <li>36°</li>
-                      </ul>
-                    </div>
-                    <div class="swiper-slide">
-                      <ul class="report-data">
-                        <li>
-                          <svg
-                            width="48"
-                            height="48"
-                            viewBox="0 0 48 48"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <g clip-path="url(#clip0_111_108)">
-                              <path
-                                d="M36 20H33.48C32.7317 17.102 31.1856 14.472 29.0173 12.4088C26.849 10.3456 24.1454 8.93198 21.2138 8.32855C18.2822 7.72512 15.2402 7.95608 12.4333 8.99518C9.6264 10.0343 7.16726 11.8399 5.33528 14.2068C3.50331 16.5737 2.37196 19.407 2.06979 22.3847C1.76763 25.3625 2.30676 28.3653 3.62593 31.0519C4.9451 33.7386 6.99141 36.0014 9.53234 37.5831C12.0733 39.1649 15.0069 40.0022 18 40H36C38.6521 40 41.1957 38.9464 43.071 37.0711C44.9464 35.1957 46 32.6522 46 30C46 27.3478 44.9464 24.8043 43.071 22.9289C41.1957 21.0536 38.6521 20 36 20Z"
-                                stroke="white"
-                                stroke-width="4"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              />
-                            </g>
-                            <defs>
-                              <clipPath id="clip0_111_108">
-                                <rect width="48" height="48" fill="white" />
-                              </clipPath>
-                            </defs>
-                          </svg>
-                        </li>
-                        <li>12AM</li>
-                        <li>32°</li>
-                        <li>34°</li>
-                        <li>rain</li>
-                        <li>36°</li>
-                      </ul>
-                    </div>
-                    <div class="swiper-slide">
-                      <ul class="report-data">
-                        <li>
-                          <svg
-                            width="48"
-                            height="48"
-                            viewBox="0 0 48 48"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <g clip-path="url(#clip0_111_108)">
-                              <path
-                                d="M36 20H33.48C32.7317 17.102 31.1856 14.472 29.0173 12.4088C26.849 10.3456 24.1454 8.93198 21.2138 8.32855C18.2822 7.72512 15.2402 7.95608 12.4333 8.99518C9.6264 10.0343 7.16726 11.8399 5.33528 14.2068C3.50331 16.5737 2.37196 19.407 2.06979 22.3847C1.76763 25.3625 2.30676 28.3653 3.62593 31.0519C4.9451 33.7386 6.99141 36.0014 9.53234 37.5831C12.0733 39.1649 15.0069 40.0022 18 40H36C38.6521 40 41.1957 38.9464 43.071 37.0711C44.9464 35.1957 46 32.6522 46 30C46 27.3478 44.9464 24.8043 43.071 22.9289C41.1957 21.0536 38.6521 20 36 20Z"
-                                stroke="white"
-                                stroke-width="4"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              />
-                            </g>
-                            <defs>
-                              <clipPath id="clip0_111_108">
-                                <rect width="48" height="48" fill="white" />
-                              </clipPath>
-                            </defs>
-                          </svg>
-                        </li>
-                        <li>12AM</li>
-                        <li>32°</li>
-                        <li>34°</li>
-                        <li>rain</li>
-                        <li>36°</li>
-                      </ul>
-                    </div> -->
+                    <% }); %>
                   </div>
                   <div class="pt-5">
                     <div class="swiper-pagination"></div>
@@ -319,6 +120,7 @@
                 </div>
               </div>
             </div>
+            <% } %>
           </div>
         </div>
       </div>

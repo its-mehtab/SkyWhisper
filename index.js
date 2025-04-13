@@ -54,7 +54,7 @@ app.post("/submit", async (req, res) => {
     console.log(tomorrowForecast);
     res.render("index.ejs", {
       city: cityName,
-      tomorrowForecast: tomorrowForecast,
+      tomorrowForecast: tomorrowForecast || null,
     });
   } catch (error) {
     console.log(error);
