@@ -5,7 +5,7 @@ import "dotenv/config";
 
 const app = express();
 const port = process.env.PORT;
-const weatherApi = "";
+const weatherApi = "http://api.openweathermap.org/";
 const apiKey = process.env.WEATHER_API_KEY;
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,16 +22,12 @@ app.post("/submit", async (req, res) => {
 
   try {
     const responseCity = await axios.get(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${apiKey}`
+      `${weatherApi}geo/1.0/direct?q=${cityName}&limit=1&appid=${apiKey}`
     );
-
-    // console.log(responseCity.data);
 
     const response = await axios.get(
-      `https://api.openweathermap.org/data/2.5/forecast?lat=${responseCity.data[0].lat}&lon=${responseCity.data[0].lon}&appid=${apiKey}`
+      `${weatherApi}data/2.5/forecast?lat=${responseCity.data[0].lat}&lon=${responseCity.data[0].lon}&appid=${apiKey}`
     );
-
-    // console.log(response.data);
 
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
@@ -41,8 +37,8 @@ app.post("/submit", async (req, res) => {
     const forecast = response.data.list.filter((currWeather) => {
       return currWeather.dt_txt.includes(tomorrowDate);
     });
-    // console.log(forecast);
-    console.log(forecast[1]);
+
+    // console.log(forecast[1]);
 
     const tomorrowForecast = forecast.map((currForecast) => {
       return {
@@ -56,11 +52,13 @@ app.post("/submit", async (req, res) => {
       };
     });
     console.log(tomorrowForecast);
+    res.render("index.ejs", {
+      city: cityName,
+      tomorrowForecast: tomorrowForecast,
+    });
   } catch (error) {
     console.log(error);
   }
-
-  res.render("index.ejs");
 });
 
 app.listen(port, () => {
