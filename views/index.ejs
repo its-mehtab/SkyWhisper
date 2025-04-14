@@ -37,18 +37,21 @@
             </div>
           </div>
           <div class="col-md-6">
-            <% if (typeof tomorrowForecast !== 'undefined') { %>
+            <%# if (typeof tomorrowForecast !== 'undefined') { %>
             <div class="weather-content common-box mt-4 mt-md-0">
-              <h2 class="common-head"><%- locals.city %></h2>
-              <h3>28°-34°</h3>
-              <p>Average - 31°</p>
-              <p>Expected to be scattered clouds</p>
+              <h2 class="common-head"><%- locals.currWeatherData.name %></h2>
+              <h3><%- locals.currWeatherData.temperature %></h3>
+              <p><%- locals.currWeatherData.feelsLike %></p>
+              <p>
+                Expected to be <%- locals.currWeatherData.weatherCondition %>
+              </p>
             </div>
             <div class="weather-content common-box mt-4">
               <div class="border-bottom mb-4 pe-100">
                 <p>
-                  Sunny conditions exprected around 5PM. Wind gusts are up to 31
-                  kph.
+                  Tommorow's Forecast : <br />
+                  <%- rainDetails[0].description%> exprected around <%-
+                  rainDetails[0].time %>.
                 </p>
                 <div class="swiper-button-prev custom-arrow">
                   <svg
@@ -120,7 +123,7 @@
                 </div>
               </div>
             </div>
-            <% } %>
+            <%# } %>
           </div>
         </div>
       </div>

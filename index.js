@@ -2,19 +2,45 @@ import express from "express";
 import bodyParser from "body-parser";
 import axios from "axios";
 import "dotenv/config";
+import { name } from "ejs";
 
 const app = express();
 const port = process.env.PORT;
 const weatherApi = "http://api.openweathermap.org/";
-const weatherAdpi = "http://api.openweathermap.org/";
 const apiKey = process.env.WEATHER_API_KEY;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
 
-app.get("/", (req, res) => {
-  res.render("index.ejs");
+app.get("/", async (req, res) => {
+  const cityName = "kolkata";
+
+  try {
+    const responseCity = await axios.get(
+      `${weatherApi}geo/1.0/direct?q=${cityName}&limit=1&appid=${apiKey}`
+    );
+
+    const response = await axios.get(
+      `${weatherApi}data/2.5/weather?lat=${responseCity.data[0].lat}&lon=${responseCity.data[0].lon}&appid=${apiKey}`
+    );
+
+    const currWeatherData = {
+      name: response.data.name,
+      temperature: response.data.main.temp,
+      feelsLike: response.data.main.feels_like,
+      humidity: response.data.main.humidity + "%",
+      weatherCondition: response.data.weather.description,
+    };
+
+    console.log(response.data);
+
+    res.render("index.ejs", { currWeatherData: currWeatherData });
+  } catch (errror) {
+    console.error(errror);
+  }
+
+  // res.render("index.ejs");
 });
 
 app.post("/submit", async (req, res) => {
@@ -41,21 +67,52 @@ app.post("/submit", async (req, res) => {
 
     // console.log(forecast[1]);
 
+    const rainData = forecast.filter((currForecast) => {
+      return currForecast.weather[0].main !== "Clear";
+    });
+
+    // console.log(rainData[0].weather[0]);
+    // console.log(rainData);
+
+    const time12 = function (time24) {
+      const [hours, mins] = time24.split(":");
+      const date = new Date();
+      date.setHours(hours, mins);
+
+      const time12 = date.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      });
+
+      return time12;
+    };
+
+    const rainDetails = rainData.map((currRain) => {
+      return {
+        time: time12(currRain.dt_txt.split(" ")[1]),
+        description: currRain.weather[0].description,
+      };
+    });
+
+    // console.log(rainDetails);
+
     const tomorrowForecast = forecast.map((currForecast) => {
       return {
-        time: currForecast.dt_txt.split(" ")[1],
-        temperature: currForecast.main.temp,
-        feelsLike: currForecast.main.feels_like,
-        humidity: currForecast.main.humidity,
+        time: time12(currForecast.dt_txt.split(" ")[1]),
+        temperature: Math.floor(currForecast.main.temp - 273.15) + "°",
+        feelsLike: Math.floor(currForecast.main.feels_like - 273.15) + "°",
+        humidity: currForecast.main.humidity + "%",
         weatherCondition: currForecast.weather[0].main,
         description: currForecast.weather[0].description,
         weatherIcon: currForecast.weather[0].icon,
       };
     });
-    console.log(tomorrowForecast);
+    // console.log(tomorrowForecast);
     res.render("index.ejs", {
       city: cityName,
       tomorrowForecast: tomorrowForecast || null,
+      rainDetails: rainDetails || null,
     });
   } catch (error) {
     console.log(error);
