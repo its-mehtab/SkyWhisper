@@ -6,6 +6,7 @@ import "dotenv/config";
 const app = express();
 const port = process.env.PORT;
 const weatherApi = "http://api.openweathermap.org/";
+const weatherAdpi = "http://api.openweathermap.org/";
 const apiKey = process.env.WEATHER_API_KEY;
 
 app.use(bodyParser.urlencoded({ extended: true }));
