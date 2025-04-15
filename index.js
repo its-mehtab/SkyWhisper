@@ -21,21 +21,23 @@ app.get("/", async (req, res) => {
       `${weatherApi}geo/1.0/direct?q=${cityName}&limit=1&appid=${apiKey}`
     );
 
-    const response = await axios.get(
+    const nowResponse = await axios.get(
       `${weatherApi}data/2.5/weather?lat=${responseCity.data[0].lat}&lon=${responseCity.data[0].lon}&appid=${apiKey}`
     );
 
     const currWeatherData = {
-      name: response.data.name,
-      temperature: response.data.main.temp,
-      feelsLike: response.data.main.feels_like,
-      humidity: response.data.main.humidity + "%",
-      weatherCondition: response.data.weather.description,
+      temperature: nowResponse.data.main.temp,
+      feelsLike: nowResponse.data.main.feels_like,
+      humidity: nowResponse.data.main.humidity + "%",
+      weatherCondition: nowResponse.data.weather.description,
     };
 
-    console.log(response.data);
+    console.log(nowResponse.data);
 
-    res.render("index.ejs", { currWeatherData: currWeatherData });
+    res.render("index.ejs", {
+      city: nowResponse.data.name,
+      currWeatherData: currWeatherData,
+    });
   } catch (errror) {
     console.error(errror);
   }
@@ -51,6 +53,19 @@ app.post("/submit", async (req, res) => {
     const responseCity = await axios.get(
       `${weatherApi}geo/1.0/direct?q=${cityName}&limit=1&appid=${apiKey}`
     );
+
+    const nowResponse = await axios.get(
+      `${weatherApi}data/2.5/weather?lat=${responseCity.data[0].lat}&lon=${responseCity.data[0].lon}&appid=${apiKey}`
+    );
+
+    const currWeatherData = {
+      temperature: Math.floor(nowResponse.data.main.temp - 273.15) + "°",
+      feelsLike: Math.floor(nowResponse.data.main.feels_like - 273.15) + "°",
+      humidity: nowResponse.data.main.humidity + "%",
+      weatherCondition: nowResponse.data.weather[0].description,
+    };
+
+    console.log(nowResponse.data);
 
     const response = await axios.get(
       `${weatherApi}data/2.5/forecast?lat=${responseCity.data[0].lat}&lon=${responseCity.data[0].lon}&appid=${apiKey}`
@@ -95,7 +110,7 @@ app.post("/submit", async (req, res) => {
       };
     });
 
-    // console.log(rainDetails);
+    console.log(rainDetails);
 
     const tomorrowForecast = forecast.map((currForecast) => {
       return {
@@ -112,6 +127,7 @@ app.post("/submit", async (req, res) => {
     res.render("index.ejs", {
       city: cityName,
       tomorrowForecast: tomorrowForecast || null,
+      currWeatherData: currWeatherData,
       rainDetails: rainDetails || null,
     });
   } catch (error) {
