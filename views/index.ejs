@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SkyWhisper</title>
+    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon" />
     <!-- In your EJS layout -->
     <link
       rel="stylesheet"
@@ -39,7 +40,7 @@
           <div class="col-md-6">
             <% if (typeof tomorrowForecast !== 'undefined') { %>
             <div class="weather-content common-box mt-4 mt-md-0">
-              <h2 class="common-head"><%- locals.city %></h2>
+              <h2 class="common-head"><%- locals.city.toLowerCase() %></h2>
               <h3><%- locals.currWeatherData.temperature %></h3>
               <p>Feels Like : <%- locals.currWeatherData.feelsLike %></p>
               <p>

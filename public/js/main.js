@@ -10,7 +10,6 @@ var swiper = new Swiper(".weather-slider", {
     prevEl: ".swiper-button-prev",
   },
   breakpoints: {
-    // when window width is >= 1200px
     1200: {
       slidesPerView: 5,
     },
@@ -31,3 +30,32 @@ var swiper = new Swiper(".weather-slider", {
     },
   },
 });
+
+// navigator.geolocation.getCurrentPosition(async (pos) => {
+//   const { latitude, longitude } = pos.coords;
+
+//   const response = await fetch(`/location?lat=${latitude}&lon=${longitude}`);
+//   const data = await response.json();
+//   console.log("City:", data.city);
+// });
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(success, error);
+  } else {
+    console.log("Geolocation is not supported by this browser.");
+  }
+}
+
+function success(position) {
+  console.log(
+    "Latitude: " + position.coords.latitude,
+    "Longitude: " + position.coords.longitude
+  );
+}
+
+function error() {
+  alert("Sorry, no position available.");
+}
+
+getLocation();
