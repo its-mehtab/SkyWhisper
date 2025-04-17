@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SkyWhisper</title>
     <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
     <!-- In your EJS layout -->
     <link
       rel="stylesheet"
@@ -37,7 +43,7 @@
               </form>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6" id="weather-container">
             <% if (typeof tomorrowForecast !== 'undefined' && currWeatherData) {
             %>
             <div class="weather-content common-box mt-4 mt-md-0">
@@ -45,7 +51,8 @@
               <h3><%- locals.currWeatherData.temperature %></h3>
               <p>Feels Like : <%- locals.currWeatherData.feelsLike %></p>
               <p>
-                Expected to be <%- locals.currWeatherData.weatherCondition %>
+                Currently experiencing <%-
+                locals.currWeatherData.weatherCondition %>
               </p>
             </div>
             <div class="weather-content common-box mt-4">

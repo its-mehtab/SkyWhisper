@@ -10,7 +10,7 @@ const weatherApi = "http://api.openweathermap.org/";
 const apiKey = process.env.WEATHER_API_KEY;
 
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(express.json());
+app.use(express.json());
 
 app.use(express.static("public"));
 
@@ -94,7 +94,7 @@ async function getApiResponse(req, res, latitude, longitude, cityName) {
     });
     // console.log(tomorrowForecast);
     res.render("index.ejs", {
-      city: currWeatherData.city || cityName,
+      city: cityName || currWeatherData.city,
       tomorrowForecast: tomorrowForecast || null,
       currWeatherData: currWeatherData,
       rainDetails: rainDetails || null,
@@ -113,10 +113,22 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/weather", (req, res) => {
-  const { lat, lon } = req.query;
-  getApiResponse(req, res, lat, lon);
+app.post("/", (req, res) => {
+  const { latitude, longitude } = req.body;
+
+  if (!latitude || !longitude) {
+    return res.status(400).send("Latitude and longitude are required");
+  }
+
+  console.log("Received location:", latitude, longitude);
+
+  getApiResponse(req, res, latitude, longitude);
 });
+
+// app.get("/weather", (req, res) => {
+//   const { lat, lon } = req.query;
+//   getApiResponse(req, res, lat, lon);
+// });
 
 // app.post("/", (req, res) => {
 //   const { latitude, longitude } = req.body;
@@ -131,21 +143,16 @@ app.get("/weather", (req, res) => {
 //   getApiResponse(req, res, latitude, longitude);
 // });
 
-app.post("/submit", async (req, res) => {
-  const cityName = req.body.cityname;
+app.post("/", (req, res) => {
+  const { latitude, longitude } = req.body;
 
-  try {
-    const responseCity = await axios.get(
-      `${weatherApi}geo/1.0/direct?q=${cityName}&limit=1&appid=${apiKey}`
-    );
-
-    const cityLat = responseCity.data[0].lat;
-    const cityLon = responseCity.data[0].lon;
-
-    getApiResponse(req, res, cityLat, cityLon, cityName);
-  } catch (error) {
-    console.error("Error fetching city coordinates:", error);
+  if (!latitude || !longitude) {
+    return res.status(400).send("Latitude and longitude are required");
   }
+
+  console.log("Received location:", latitude, longitude);
+
+  getApiResponse(req, res, latitude, longitude);
 });
 
 app.listen(port, () => {
