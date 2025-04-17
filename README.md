@@ -34,16 +34,22 @@ cd SkyWhisper
 
 ### 2. Install dependencies
 
-npm install or npm i
+```bash
+npm install
+```
 
 ### 3. Create a .env file in the root directory
 
+```bash
 PORT=3000
 WEATHER_API_KEY=your_openweathermap_api_key
+```
 
 ### 4. Start the application
 
+```bash
 node index.js or nodemon index.js
+```
 
 ### 5. Open in your browser
 
@@ -51,13 +57,16 @@ http://localhost:3000
 
 📁 Project Structure
 
+````bash
 weather-app/
 ├── public/ # Static files (CSS, JS)
 ├── views/ # EJS templates
 ├── .env # Environment variables
 ├── index.js # Main server file
 └── README.md
+```bash
 
 #### 🌐 API Used
 
 OpenWeatherMap API
+````
