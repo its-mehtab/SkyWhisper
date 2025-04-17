@@ -31,31 +31,68 @@ var swiper = new Swiper(".weather-slider", {
   },
 });
 
-// navigator.geolocation.getCurrentPosition(async (pos) => {
-//   const { latitude, longitude } = pos.coords;
+// function getLocation() {
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(success, error);
+//   } else {
+//     console.log("Geolocation is not supported by this browser.");
+//   }
+// }
 
-//   const response = await fetch(`/location?lat=${latitude}&lon=${longitude}`);
-//   const data = await response.json();
-//   console.log("City:", data.city);
-// });
+// function success(position) {
+//   const { latitude, longitude } = position.coords;
+//   console.log("Latitude: " + latitude, "Longitude: " + longitude);
+// }
 
-function getLocation() {
+// function error() {
+//   alert("Sorry, no position available.");
+// }
+
+// getLocation();
+
+// if (window.location.pathname === "/") {
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(
+//       (position) => {
+//         const { latitude, longitude } = position.coords;
+
+//         fetch("/", {
+//           method: "POST",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify({ latitude, longitude }),
+//         })
+//           .then((res) => res.json())
+//           .then((data) => {
+//             console.log("Weather data:", data);
+//             // You can update your UI here with the weather data
+//           })
+//           .catch((err) => console.error("Error:", err));
+//       },
+//       (error) => {
+//         console.error("Geolocation error:", error.message);
+//       }
+//     );
+//   } else {
+//     alert("Geolocation is not supported by your browser.");
+//   }
+// }
+
+if (window.location.pathname === "/") {
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(success, error);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+
+        // Redirect the user to a GET route with the coordinates
+        window.location.href = `/weather?lat=${latitude}&lon=${longitude}`;
+      },
+      (error) => {
+        console.error("Geolocation error:", error.message);
+      }
+    );
   } else {
-    console.log("Geolocation is not supported by this browser.");
+    alert("Geolocation is not supported by your browser.");
   }
 }
-
-function success(position) {
-  console.log(
-    "Latitude: " + position.coords.latitude,
-    "Longitude: " + position.coords.longitude
-  );
-}
-
-function error() {
-  alert("Sorry, no position available.");
-}
-
-getLocation();

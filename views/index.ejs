@@ -38,9 +38,10 @@
             </div>
           </div>
           <div class="col-md-6">
-            <% if (typeof tomorrowForecast !== 'undefined') { %>
+            <% if (typeof tomorrowForecast !== 'undefined' && currWeatherData) {
+            %>
             <div class="weather-content common-box mt-4 mt-md-0">
-              <h2 class="common-head"><%- locals.city.toLowerCase() %></h2>
+              <h2 class="common-head"><%- locals.city %></h2>
               <h3><%- locals.currWeatherData.temperature %></h3>
               <p>Feels Like : <%- locals.currWeatherData.feelsLike %></p>
               <p>
