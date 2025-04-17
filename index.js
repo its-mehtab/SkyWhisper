@@ -2,7 +2,6 @@ import express from "express";
 import bodyParser from "body-parser";
 import axios from "axios";
 import "dotenv/config";
-import { name } from "ejs";
 
 const app = express();
 const port = process.env.PORT;
@@ -10,7 +9,7 @@ const weatherApi = "http://api.openweathermap.org/";
 const apiKey = process.env.WEATHER_API_KEY;
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
+// app.use(express.json());
 
 app.use(express.static("public"));
 
@@ -113,47 +112,22 @@ app.get("/", (req, res) => {
   });
 });
 
-app.post("/", (req, res) => {
-  const { latitude, longitude } = req.body;
-
-  if (!latitude || !longitude) {
-    return res.status(400).send("Latitude and longitude are required");
-  }
-
-  console.log("Received location:", latitude, longitude);
-
-  getApiResponse(req, res, latitude, longitude);
+app.get("/weather", (req, res) => {
+  const { lat, lon } = req.query;
+  getApiResponse(req, res, lat, lon);
 });
-
-// app.get("/weather", (req, res) => {
-//   const { lat, lon } = req.query;
-//   getApiResponse(req, res, lat, lon);
-// });
 
 // app.post("/", (req, res) => {
 //   const { latitude, longitude } = req.body;
 
 //   if (!latitude || !longitude) {
-//     return res
-//       .status(400)
-//       .json({ error: "Latitude and longitude are required" });
+//     return res.status(400).send("Latitude and longitude are required");
 //   }
+
 //   console.log("Received location:", latitude, longitude);
 
 //   getApiResponse(req, res, latitude, longitude);
 // });
-
-app.post("/", (req, res) => {
-  const { latitude, longitude } = req.body;
-
-  if (!latitude || !longitude) {
-    return res.status(400).send("Latitude and longitude are required");
-  }
-
-  console.log("Received location:", latitude, longitude);
-
-  getApiResponse(req, res, latitude, longitude);
-});
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);

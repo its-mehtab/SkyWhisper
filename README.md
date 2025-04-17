@@ -57,16 +57,15 @@ http://localhost:3000
 
 📁 Project Structure
 
-````bash
+```bash
 weather-app/
 ├── public/ # Static files (CSS, JS)
 ├── views/ # EJS templates
 ├── .env # Environment variables
 ├── index.js # Main server file
 └── README.md
-```bash
+```
 
 #### 🌐 API Used
 
 OpenWeatherMap API
-````
