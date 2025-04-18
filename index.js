@@ -14,16 +14,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 async function getApiResponse(req, res, latitude, longitude, cityName) {
-  // const cityName = req.body.formCity;
-  // const cityName = city;
-  // console.log(cityName);
-
   try {
     const nowResponse = await axios.get(
       `${weatherApi}data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`
     );
-
-    console.log(nowResponse.data);
 
     const currWeatherData = {
       city: nowResponse.data.name,
@@ -32,8 +26,6 @@ async function getApiResponse(req, res, latitude, longitude, cityName) {
       humidity: nowResponse.data.main.humidity + "%",
       weatherCondition: nowResponse.data.weather[0].description,
     };
-
-    // console.log(nowResponse.data);
 
     const response = await axios.get(
       `${weatherApi}data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}`
@@ -48,14 +40,9 @@ async function getApiResponse(req, res, latitude, longitude, cityName) {
       return currWeather.dt_txt.includes(tomorrowDate);
     });
 
-    // console.log(forecast[1]);
-
     const rainData = forecast.filter((currForecast) => {
       return currForecast.weather[0].main !== "Clear";
     });
-
-    // console.log(rainData[0].weather[0]);
-    // console.log(rainData);
 
     const time12 = function (time24) {
       const [hours, mins] = time24.split(":");
@@ -78,8 +65,6 @@ async function getApiResponse(req, res, latitude, longitude, cityName) {
       };
     });
 
-    console.log(rainDetails);
-
     const tomorrowForecast = forecast.map((currForecast) => {
       return {
         time: time12(currForecast.dt_txt.split(" ")[1]),
@@ -91,7 +76,7 @@ async function getApiResponse(req, res, latitude, longitude, cityName) {
         weatherIcon: currForecast.weather[0].icon,
       };
     });
-    // console.log(tomorrowForecast);
+
     res.render("index.ejs", {
       city: cityName || currWeatherData.city,
       tomorrowForecast: tomorrowForecast || null,
@@ -128,6 +113,23 @@ app.get("/weather", (req, res) => {
 
 //   getApiResponse(req, res, latitude, longitude);
 // });
+
+app.post("/submit", async (req, res) => {
+  const cityName = req.body.cityname;
+
+  try {
+    const responseCity = await axios.get(
+      `${weatherApi}geo/1.0/direct?q=${cityName}&limit=1&appid=${apiKey}`
+    );
+
+    const cityLat = responseCity.data[0].lat;
+    const cityLon = responseCity.data[0].lon;
+
+    getApiResponse(req, res, cityLat, cityLon, cityName);
+  } catch (error) {
+    console.error("Error fetching city coordinates:", error);
+  }
+});
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);

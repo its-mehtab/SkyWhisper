@@ -1,6 +1,4 @@
-# SkyWhisper
-
-# 🌦️ Weather App
+# 🌦️ SkyWhisper
 
 A dynamic weather application built with Node.js, Express, and EJS that provides weather information based on the user's current location or a searched city. Uses the OpenWeatherMap API to fetch real-time weather data and a 5-day forecast.
 
