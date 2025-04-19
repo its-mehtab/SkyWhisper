@@ -31,6 +31,11 @@
               </div>
               <h1 class="common-head">Will It Rain Tomorrow?</h1>
               <p>Enter your city to check the weather forecast:</p>
+              <% if (typeof errorMsg !== 'undefined') { %>
+              <p class="py-1 px-3 rounded-2 bg-danger d-inline-block">
+                <%= errorMsg %>
+              </p>
+              <% } %>
               <form id="weatherForm" action="/submit" method="post">
                 <input
                   name="cityname"

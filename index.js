@@ -84,9 +84,18 @@ async function getApiResponse(req, res, latitude, longitude, cityName) {
       rainDetails: rainDetails || null,
     });
   } catch (error) {
-    console.log(error);
+    console.log("my Error:", error);
   }
 }
+
+// function wrongCityError() {
+//   res.render("index.ejs", {
+//     city: cityName || currWeatherData.city,
+//     tomorrowForecast: tomorrowForecast || null,
+//     currWeatherData: currWeatherData,
+//     rainDetails: rainDetails || null,
+//   });
+// }
 
 app.get("/", (req, res) => {
   res.render("index.ejs", {
@@ -122,12 +131,25 @@ app.post("/submit", async (req, res) => {
       `${weatherApi}geo/1.0/direct?q=${cityName}&limit=1&appid=${apiKey}`
     );
 
+    if (!responseCity.data || responseCity.data.length === 0) {
+      throw new Error(
+        `Oops! Couldn't find that city ${cityName}. Please check the spelling!`
+      );
+    }
+
     const cityLat = responseCity.data[0].lat;
     const cityLon = responseCity.data[0].lon;
-
     getApiResponse(req, res, cityLat, cityLon, cityName);
   } catch (error) {
-    console.error("Error fetching city coordinates:", error);
+    // console.error("Error fetching city coordinates:", error);
+
+    res.render("index.ejs", {
+      errorMsg: error.message,
+      city: null,
+      tomorrowForecast: null,
+      currWeatherData: null,
+      rainDetails: null,
+    });
   }
 });
 
