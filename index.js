@@ -4,7 +4,7 @@ import axios from "axios";
 import "dotenv/config";
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 const weatherApi = "http://api.openweathermap.org/";
 const apiKey = process.env.WEATHER_API_KEY;
 
@@ -87,15 +87,6 @@ async function getApiResponse(req, res, latitude, longitude, cityName) {
     console.log("my Error:", error);
   }
 }
-
-// function wrongCityError() {
-//   res.render("index.ejs", {
-//     city: cityName || currWeatherData.city,
-//     tomorrowForecast: tomorrowForecast || null,
-//     currWeatherData: currWeatherData,
-//     rainDetails: rainDetails || null,
-//   });
-// }
 
 app.get("/", (req, res) => {
   res.render("index.ejs", {
